@@ -26,7 +26,22 @@ const bookSchema = new Schema({
   bookPDFURL: {
     type: String,
     required: true
-  }
+  },
+  seller: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  stock: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
 });
 
 // Create the Book model
