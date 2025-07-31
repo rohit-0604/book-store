@@ -1,0 +1,14 @@
+{
+  "name": "bookstore-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "Client",
+    "api"
+  ],
+  "scripts": {
+    "build": "cd Client && npm run build",
+    "dev": "cd Client && npm run dev",
+    "install:all": "npm install && cd Client && npm install && cd ../api && npm install"
+  }
+}
