@@ -92,7 +92,7 @@ const SingleBook = () => {
         <div className="space-y-6">
           <div className="relative">
             <img
-              src={book.imageURL}
+              src={book.imageURL && book.imageURL.startsWith('http') ? book.imageURL : `/${book.imageURL}`}
               alt={book.bookTitle}
               className="w-full h-auto rounded-lg shadow-lg"
             />
@@ -111,7 +111,7 @@ const SingleBook = () => {
             {[1, 2, 3, 4].map((i) => (
               <img
                 key={i}
-                src={book.imageURL}
+                src={book.imageURL && book.imageURL.startsWith('http') ? book.imageURL : `/${book.imageURL}`}
                 alt={`${book.bookTitle} ${i}`}
                 className="w-20 h-20 object-cover rounded-lg border-2 border-gray-200 hover:border-blue-500 cursor-pointer"
               />

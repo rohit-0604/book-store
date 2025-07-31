@@ -9,7 +9,7 @@ const BestSellerBooks = () => {
     useEffect(() => {
         const apiUrl = import.meta.env.VITE_API_URL || 'https://online-book-store-orcin.vercel.app/api';
         
-        fetch(`${apiUrl}/all-books`)
+        fetch(`${apiUrl}/books`)
             .then(res => {
                 if (!res.ok) throw new Error('Failed to fetch books');
                 return res.json();

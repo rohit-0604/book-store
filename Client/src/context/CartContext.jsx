@@ -108,7 +108,7 @@ export const CartProvider = ({ children }) => {
           quantity,
           price: book.price,
           title: book.bookTitle,
-          imageURL: book.imageURL,
+          imageURL: book.imageURL ? (book.imageURL.startsWith('http') ? book.imageURL : `/${book.imageURL}`) : '/placeholder-book.jpg',
         },
         {
           headers: { Authorization: `Bearer ${token}` }

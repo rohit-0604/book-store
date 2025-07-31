@@ -71,7 +71,7 @@ const Shop = () => {
             <Card key={book._id} className="overflow-hidden hover:shadow-lg transition-shadow">
               <CardHeader className="p-0">
                 <img 
-                  src={book.imageURL || '/placeholder-book.jpg'} 
+                  src={book.imageURL ? (book.imageURL.startsWith('http') ? book.imageURL : `/${book.imageURL}`) : '/placeholder-book.jpg'}
                   alt={book.bookTitle || 'Book'}
                   className='h-96 w-full object-cover'
                   onError={(e) => {

@@ -29,7 +29,7 @@ const BookCards = ({ book, books, onAddToCart, headLine }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 flex flex-col">
       <img 
-        src={bookData.imageURL || '/placeholder-book.jpg'} 
+        src={bookData.imageURL ? (bookData.imageURL.startsWith('http') ? bookData.imageURL : `/${bookData.imageURL}`) : '/placeholder-book.jpg'}
         alt={bookData.bookTitle || 'Book'} 
         className="h-48 w-full object-cover rounded mb-4" 
         onError={(e) => {

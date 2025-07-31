@@ -61,7 +61,7 @@ const Cart = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-4">
                     <img
-                      src={item.imageURL}
+                      src={item.imageURL && item.imageURL.startsWith('http') ? item.imageURL : `/${item.imageURL}`}
                       alt={item.title}
                       className="w-20 h-20 object-cover rounded-lg"
                     />
