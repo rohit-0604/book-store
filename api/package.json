@@ -1,0 +1,24 @@
+{
+  "name": "enhanced-bookstore-api",
+  "version": "2.0.0",
+  "description": "Enhanced bookstore API for Vercel serverless deployment",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mongoose": "^7.6.3",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "express-validator": "^7.0.1",
+    "dotenv": "^16.3.1",
+    "cookie-parser": "^1.4.6"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
