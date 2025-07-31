@@ -1,108 +1,180 @@
 import React from 'react';
-import { FaBook, FaUsers, FaShippingFast, FaHeadset } from 'react-icons/fa';
+import { BookOpen, Users, Award, Heart, Star, Globe, Shield, Zap } from 'lucide-react';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            About Our Bookstore
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We're passionate about connecting readers with their next favorite book. 
-            Our curated collection spans across all genres, from timeless classics to contemporary bestsellers.
+    <div className="mt-28 px-4 lg:px-24 py-12">
+      {/* Hero Section */}
+      <div className="text-center mb-16">
+        <h1 className="text-5xl font-bold text-gray-900 mb-6">
+          About Enhanced Bookstore
+        </h1>
+        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          We're passionate about connecting readers with their next favorite book. 
+          Our platform brings together authors, publishers, and book lovers in a seamless digital experience.
+        </p>
+      </div>
+
+      {/* Mission Section */}
+      <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+          <p className="text-lg text-gray-600 mb-6">
+            To democratize access to knowledge and literature by providing a comprehensive 
+            platform where readers can discover, purchase, and engage with books from around the world.
+          </p>
+          <p className="text-lg text-gray-600">
+            We believe that every book has the power to transform lives, and we're committed 
+            to making that transformation accessible to everyone.
           </p>
         </div>
-
-        {/* Mission Section */}
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-            Our Mission
-          </h2>
-          <p className="text-lg text-gray-700 text-center max-w-4xl mx-auto leading-relaxed">
-            To inspire and empower readers by providing access to quality literature, 
-            fostering a love for reading, and building a community of book enthusiasts. 
-            We believe that every book has the power to transform lives and open new worlds.
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl">
+          <BookOpen className="h-24 w-24 text-blue-600 mx-auto mb-6" />
+          <h3 className="text-2xl font-bold text-center text-gray-900 mb-4">
+            Knowledge for Everyone
+          </h3>
+          <p className="text-center text-gray-600">
+            From classic literature to contemporary bestsellers, we curate a diverse 
+            collection that caters to every reader's interests and needs.
           </p>
         </div>
+      </div>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          <div className="text-center">
-            <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <FaBook className="text-2xl text-blue-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Extensive Collection
-            </h3>
+      {/* Features Grid */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          Why Choose Enhanced Bookstore?
+        </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+            <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Community Driven</h3>
             <p className="text-gray-600">
-              Thousands of carefully curated books across all genres and categories.
+              Join a vibrant community of readers, authors, and book enthusiasts.
             </p>
           </div>
-
-          <div className="text-center">
-            <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <FaUsers className="text-2xl text-green-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Community Driven
-            </h3>
+          
+          <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+            <Award className="h-12 w-12 text-green-600 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Quality Assured</h3>
             <p className="text-gray-600">
-              Built by readers, for readers. Join our growing community of book lovers.
+              Every book is carefully selected and reviewed for quality and relevance.
             </p>
           </div>
-
-          <div className="text-center">
-            <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <FaShippingFast className="text-2xl text-purple-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Fast Delivery
-            </h3>
+          
+          <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+            <Globe className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Global Reach</h3>
             <p className="text-gray-600">
-              Quick and reliable shipping to get your books to you as soon as possible.
+              Access books from international authors and publishers worldwide.
             </p>
           </div>
-
-          <div className="text-center">
-            <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <FaHeadset className="text-2xl text-orange-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Expert Support
-            </h3>
+          
+          <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+            <Shield className="h-12 w-12 text-red-600 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Secure Shopping</h3>
             <p className="text-gray-600">
-              Our team of book enthusiasts is here to help you find your next read.
+              Your privacy and security are our top priorities.
             </p>
           </div>
         </div>
+      </div>
 
-        {/* Story Section */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-            Our Story
-          </h2>
-          <div className="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed space-y-4">
-            <p>
-              Founded with a simple yet powerful vision, our bookstore began as a small 
-              local shop with a big dream: to make quality literature accessible to everyone. 
-              What started as a modest collection has grown into a comprehensive online platform 
-              serving readers worldwide.
+      {/* Stats Section */}
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 mb-16">
+        <div className="grid md:grid-cols-4 gap-8 text-center text-white">
+          <div>
+            <div className="text-4xl font-bold mb-2">10K+</div>
+            <div className="text-blue-100">Books Available</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold mb-2">50K+</div>
+            <div className="text-blue-100">Happy Readers</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold mb-2">100+</div>
+            <div className="text-blue-100">Authors</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold mb-2">24/7</div>
+            <div className="text-blue-100">Support</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Team Section */}
+      <div className="mb-16">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          Our Story
+        </h2>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="bg-gray-50 p-8 rounded-2xl">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">How It All Started</h3>
+            <p className="text-gray-600 mb-6">
+              Enhanced Bookstore was born from a simple idea: making great books accessible to everyone. 
+              What started as a small local bookstore has grown into a comprehensive digital platform 
+              that serves readers worldwide.
             </p>
-            <p>
-              Today, we continue to uphold our founding principles while embracing modern 
-              technology to enhance the reading experience. Our team of passionate bibliophiles 
-              works tirelessly to curate collections that inspire, educate, and entertain.
-            </p>
-            <p>
-              We believe that books have the unique ability to transport us to different worlds, 
-              expand our horizons, and connect us with others across time and space. 
-              That's why we're committed to being more than just a bookstore – we're a gateway 
-              to endless possibilities.
+            <p className="text-gray-600">
+              Our journey has been driven by our passion for literature and our commitment to 
+              fostering a love of reading in communities everywhere.
             </p>
           </div>
+          <div className="space-y-6">
+            <div className="flex items-start space-x-4">
+              <div className="bg-blue-100 p-3 rounded-full">
+                <Heart className="h-6 w-6 text-blue-600" />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">Passion for Books</h4>
+                <p className="text-gray-600">
+                  Every member of our team shares a deep love for literature and storytelling.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start space-x-4">
+              <div className="bg-green-100 p-3 rounded-full">
+                <Star className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">Excellence in Service</h4>
+                <p className="text-gray-600">
+                  We're committed to providing the best possible experience for our customers.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start space-x-4">
+              <div className="bg-purple-100 p-3 rounded-full">
+                <Zap className="h-6 w-6 text-purple-600" />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">Innovation</h4>
+                <p className="text-gray-600">
+                  We continuously innovate to bring you the best reading experience possible.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="text-center bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-12">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">
+          Ready to Start Your Reading Journey?
+        </h2>
+        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          Join thousands of readers who have discovered their next favorite book with us.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+            Explore Books
+          </button>
+          <button className="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+            Learn More
+          </button>
         </div>
       </div>
     </div>
