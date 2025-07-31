@@ -5,7 +5,7 @@ import { Card } from "flowbite-react";
 const Shop = () => {
   const [books,setBooks]=useState([]);
   useEffect(()=>{
-    fetch("http://localhost:3000/all-books").then(res => res.json()).then(data => setBooks(data));
+    fetch("http://localhost:5001/api/books").then(res => res.json()).then(data => setBooks(data));
   },[])
   return (
     <div className='mt-28 px-4 lg:px-24'>
