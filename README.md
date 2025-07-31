@@ -1,6 +1,6 @@
-# 📚 Enhanced Bookstore - Complete E-commerce Platform
+# 📚 Enhanced Bookstore - Modern MERN Stack E-commerce Platform
 
-A modern, full-featured online bookstore built with the MERN stack, featuring JWT authentication, role-based access control, shopping cart functionality, and comprehensive order management.
+A modern, full-featured online bookstore built with the MERN stack, featuring JWT authentication, role-based access control, shopping cart functionality, and comprehensive order management. Built with modern UI components and clean architecture.
 
 ## ✨ Features
 
@@ -9,6 +9,7 @@ A modern, full-featured online bookstore built with the MERN stack, featuring JW
 - **Role-based Access Control** - Admin, Seller, and Customer roles
 - **Profile Management** - Complete user profile with shipping addresses
 - **Role Upgrading** - Customers can become sellers seamlessly
+- **Context-based State Management** - React Context API for auth and cart state
 
 ### 🛒 E-commerce Functionality
 - **Shopping Cart System** - Add, update, remove items with real-time updates
@@ -16,16 +17,17 @@ A modern, full-featured online bookstore built with the MERN stack, featuring JW
 - **Inventory Management** - Real-time stock tracking and availability
 - **Order Processing** - Complete order lifecycle from cart to delivery
 - **Review System** - Rate and review purchased books
+- **Checkout Process** - Secure payment and shipping information
 
 ### 👥 User Roles & Permissions
 
 #### 🛍️ Customer Features
 - Browse and search books with advanced filters
-- Add books to cart and wishlist
-- Secure checkout with multiple payment options
+- Add books to cart and manage quantities
+- Secure checkout with shipping information
 - Order tracking and history
 - Leave reviews for purchased books
-- Manage shipping addresses
+- Manage shipping addresses and profile
 
 #### 🏪 Seller Features
 - Add and manage book inventory
@@ -43,8 +45,9 @@ A modern, full-featured online bookstore built with the MERN stack, featuring JW
 - System configuration and settings
 
 ### 🎨 Modern UI/UX
-- **Responsive Design** - Mobile-first approach
-- **Clean Interface** - Modern, intuitive design
+- **Responsive Design** - Mobile-first approach with Tailwind CSS
+- **Modern Components** - shadcn/ui components for consistent design
+- **Lucide React Icons** - Beautiful, customizable icons
 - **Real-time Updates** - Instant feedback and notifications
 - **Accessibility** - WCAG compliant interface
 - **Dark Mode Ready** - Prepared for theme switching
@@ -59,16 +62,26 @@ A modern, full-featured online bookstore built with the MERN stack, featuring JW
 - **JWT** - Authentication tokens
 - **bcryptjs** - Password hashing
 - **Express Validator** - Input validation
+- **CORS** - Cross-origin resource sharing
+- **Cookie Parser** - Cookie handling
 
 ### Frontend
 - **React 18** - UI library with hooks
-- **React Router** - Client-side routing
-- **Zustand** - State management
+- **React Router DOM** - Client-side routing
+- **React Context API** - State management (replaced Zustand)
 - **React Hook Form** - Form handling
 - **Axios** - HTTP client
 - **React Hot Toast** - Notifications
-- **Tailwind CSS** - Styling
-- **React Icons** - Icon library
+- **Tailwind CSS** - Utility-first CSS framework
+- **Lucide React** - Modern icon library
+- **shadcn/ui** - Modern UI component library
+- **Swiper** - Touch slider for carousels
+- **Vite** - Fast build tool and dev server
+
+### UI Components & Styling
+- **Radix UI** - Headless UI primitives
+- **Class Variance Authority** - Component variant management
+- **clsx & tailwind-merge** - Conditional styling utilities
 
 ## 📦 Installation & Setup
 
@@ -79,8 +92,8 @@ A modern, full-featured online bookstore built with the MERN stack, featuring JW
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
-cd enhanced-bookstore
+git clone https://github.com/rohit-0604/book-store.git
+cd book-store
 ```
 
 ### 2. Backend Setup
@@ -144,7 +157,7 @@ The application will be available at:
 ## 🗂️ Project Structure
 
 ```
-enhanced-bookstore/
+book-store/
 ├── Server/                 # Backend application
 │   ├── models/            # Database models
 │   │   ├── User.js        # User model with roles
@@ -165,21 +178,43 @@ enhanced-bookstore/
 ├── Client/                # Frontend application
 │   ├── src/
 │   │   ├── components/    # React components
+│   │   │   ├── ui/        # shadcn/ui components
+│   │   │   │   ├── button.jsx
+│   │   │   │   ├── card.jsx
+│   │   │   │   ├── input.jsx
+│   │   │   │   └── avatar.jsx
 │   │   │   ├── Login.jsx  # Authentication forms
 │   │   │   ├── Signup.jsx
 │   │   │   ├── Navbar.jsx # Navigation with cart
-│   │   │   └── Cart.jsx   # Shopping cart
-│   │   ├── stores/        # Zustand stores
-│   │   │   ├── authStore.js   # Authentication state
-│   │   │   └── cartStore.js   # Cart state
+│   │   │   ├── Cart.jsx   # Shopping cart
+│   │   │   ├── Checkout.jsx # Checkout process
+│   │   │   ├── Profile.jsx # User profile
+│   │   │   ├── AdminDashboard.jsx # Admin panel
+│   │   │   ├── SellerDashboard.jsx # Seller panel
+│   │   │   └── PrivateRoute.jsx # Route protection
+│   │   ├── context/       # React Context providers
+│   │   │   ├── AuthContext.jsx   # Authentication state
+│   │   │   └── CartContext.jsx   # Cart state
 │   │   ├── services/      # API services
 │   │   │   └── api.js     # HTTP client setup
-│   │   ├── pages/         # Page components
-│   │   └── App.jsx        # App entry point
+│   │   ├── home/          # Home page components
+│   │   │   ├── Banner.jsx
+│   │   │   └── Reviews.jsx
+│   │   ├── shop/          # Shop components
+│   │   │   └── Shop.jsx
+│   │   ├── lib/           # Utility functions
+│   │   │   └── utils.js   # Tailwind class merging
+│   │   ├── routers/       # Routing configuration
+│   │   │   └── router.jsx
+│   │   ├── App.jsx        # App entry point
+│   │   └── main.jsx       # React root
 │   ├── .env.example       # Environment template
+│   ├── tailwind.config.js # Tailwind configuration
+│   ├── index.css          # Global styles
 │   └── package.json       # Dependencies
 │
 ├── bookData.json          # Sample book data
+├── DEPLOYMENT.md          # Deployment guide
 └── README.md             # This file
 ```
 
@@ -191,6 +226,7 @@ enhanced-bookstore/
 - `GET /api/auth/profile` - Get user profile
 - `PUT /api/auth/profile` - Update profile
 - `POST /api/auth/become-seller` - Upgrade to seller
+- `POST /api/auth/change-password` - Change password
 
 ### Books
 - `GET /api/books` - Get all books with filters
@@ -213,47 +249,67 @@ enhanced-bookstore/
 - `GET /api/orders/:orderId` - Get single order
 - `PUT /api/orders/:orderId/cancel` - Cancel order
 - `PUT /api/orders/:orderId/status` - Update order status
+- `GET /api/orders/seller/orders` - Get seller's orders
 
-## 👥 Demo Accounts
+## 🎯 Key Features & Improvements
 
-The application comes with pre-configured demo accounts:
+### Modern Architecture
+1. **React Context API** - Replaced Zustand with native React state management
+2. **shadcn/ui Components** - Modern, accessible UI components
+3. **Lucide React Icons** - Beautiful, customizable icon library
+4. **Tailwind CSS** - Utility-first styling approach
+5. **Vite Build Tool** - Fast development and optimized builds
 
-- **Admin**: admin@bookstore.com / password123
-- **Seller**: seller@bookstore.com / password123
-- **Customer**: customer@bookstore.com / password123
+### Enhanced User Experience
+1. **Responsive Design** - Mobile-first approach
+2. **Real-time Updates** - Instant feedback and notifications
+3. **Modern UI/UX** - Clean, intuitive interface
+4. **Accessibility** - WCAG compliant components
+5. **Performance** - Optimized loading and rendering
 
-## 🎯 Key Improvements Over Original
-
-1. **Replaced Firebase with JWT** - More control and security
-2. **Added Role-based Access** - Comprehensive user management
-3. **Shopping Cart System** - Full e-commerce functionality
-4. **Order Management** - Complete order lifecycle
-5. **Enhanced UI/UX** - Modern, responsive design
-6. **Better State Management** - Zustand for predictable state
-7. **Comprehensive Validation** - Both client and server-side
-8. **Real-time Updates** - Instant feedback and notifications
-9. **Mobile Responsive** - Works perfectly on all devices
-10. **Scalable Architecture** - Clean, maintainable codebase
+### Security & Reliability
+1. **JWT Authentication** - Secure token-based auth
+2. **Role-based Access** - Comprehensive permissions
+3. **Input Validation** - Both client and server-side
+4. **Error Handling** - Graceful error management
+5. **Data Validation** - Mongoose schemas and validation
 
 ## 🚀 Deployment
 
-### Backend (Heroku/Railway)
-1. Set up MongoDB Atlas
+### Backend Deployment
+1. Set up MongoDB Atlas cluster
 2. Configure environment variables
-3. Deploy using your preferred platform
+3. Deploy to Heroku, Railway, or DigitalOcean
+4. Set up CORS for frontend domain
 
-### Frontend (Vercel/Netlify)
+### Frontend Deployment
 1. Build the React app: `npm run build`
-2. Deploy the `dist` folder
+2. Deploy the `dist` folder to Vercel, Netlify, or similar
 3. Configure environment variables
+4. Set up custom domain (optional)
+
+### Environment Variables for Production
+```env
+# Backend
+NODE_ENV=production
+MONGO_URI=your-mongodb-atlas-url
+JWT_SECRET=your-production-jwt-secret
+CLIENT_URL=https://your-frontend-domain.com
+
+# Frontend
+VITE_API_URL=https://your-backend-domain.com/api
+```
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -am 'Add feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit a pull request
+3. Install dependencies: `npm install` (both Client and Server)
+4. Make your changes
+5. Test thoroughly
+6. Commit changes: `git commit -am 'Add feature'`
+7. Push to branch: `git push origin feature-name`
+8. Submit a pull request
 
 ## 📄 License
 
@@ -261,13 +317,26 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- Original MERN bookstore concept
 - React and Node.js communities
-- MongoDB for excellent documentation
+- shadcn/ui for excellent component library
+- Lucide for beautiful icons
 - Tailwind CSS for styling system
+- MongoDB for excellent documentation
 
 ---
 
 **Made with ❤️ for the developer community**
 
 For questions or support, please open an issue in the repository.
+
+## 🔄 Recent Updates (v2.0.0)
+
+- ✅ Migrated from Zustand to React Context API
+- ✅ Replaced react-icons with Lucide React
+- ✅ Integrated shadcn/ui components
+- ✅ Updated to modern Tailwind CSS configuration
+- ✅ Improved component architecture
+- ✅ Enhanced UI/UX with modern design patterns
+- ✅ Optimized build process with Vite
+- ✅ Added comprehensive error handling
+- ✅ Improved accessibility features
