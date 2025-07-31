@@ -22,10 +22,5 @@
       "src": "/(.*)",
       "dest": "/Client/$1"
     }
-  ],
-  "functions": {
-    "api/index.js": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }
