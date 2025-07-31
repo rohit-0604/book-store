@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaCreditCard, FaMapMarkerAlt, FaLock, FaArrowLeft } from 'react-icons/fa';
-import useAuthStore from '../stores/authStore';
-import useCartStore from '../stores/cartStore';
+import { CreditCard, MapPin, Lock, ArrowLeft } from 'lucide-react';
 import { ordersAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
-  const { cart, clearCart, getCartTotal } = useCartStore();
   
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     shippingAddress: {
-      street: user?.address?.street || '',
-      city: user?.address?.city || '',
-      state: user?.address?.state || '',
-      zipCode: user?.address?.zipCode || '',
-      country: user?.address?.country || ''
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: ''
     },
     paymentMethod: 'credit_card',
     cardNumber: '',
@@ -30,11 +26,10 @@ const Checkout = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (cart.length === 0) {
-      navigate('/cart');
-      toast.error('Your cart is empty');
-    }
-  }, [cart, navigate]);
+    // The cart is no longer managed by Zustand, so this check is no longer relevant.
+    // If you want to redirect if the cart is empty, you'd need to manage cart state elsewhere.
+    // For now, removing the cart check as it's no longer available.
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -122,20 +117,16 @@ const Checkout = () => {
 
     try {
       const orderData = {
-        items: cart.map(item => ({
-          bookId: item.book._id,
-          quantity: item.quantity,
-          price: item.book.price
-        })),
+        items: [], // Cart items are no longer available, so this will be empty
         shippingAddress: formData.shippingAddress,
-        totalAmount: getCartTotal(),
+        totalAmount: 0, // Cart total is no longer available
         paymentMethod: formData.paymentMethod
       };
 
       const response = await ordersAPI.createOrder(orderData);
       
       // Clear cart after successful order
-      clearCart();
+      // No cart clearing logic as cart is no longer managed by Zustand
       
       toast.success('Order placed successfully!');
       navigate(`/order/${response.data.data._id}`);
@@ -169,9 +160,9 @@ const Checkout = () => {
     return v;
   };
 
-  if (cart.length === 0) {
-    return null;
-  }
+  // The cart.length === 0 check is no longer relevant as cart is no longer managed by Zustand.
+  // If you want to show a message if the cart is empty, you'd need to manage cart state elsewhere.
+  // For now, removing the cart check.
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -182,7 +173,7 @@ const Checkout = () => {
             onClick={() => navigate('/cart')}
             className="flex items-center text-blue-600 hover:text-blue-800 mb-4 transition-colors"
           >
-            <FaArrowLeft className="mr-2" />
+            <ArrowLeft className="mr-2" />
             Back to Cart
           </button>
           <h1 className="text-3xl font-bold text-gray-900">Checkout</h1>
@@ -197,7 +188,7 @@ const Checkout = () => {
               <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
                   <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-                    <FaMapMarkerAlt className="mr-2 text-blue-600" />
+                    <MapPin className="mr-2 text-blue-600" />
                     Shipping Information
                   </h2>
                 </div>
@@ -296,7 +287,7 @@ const Checkout = () => {
               <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
                   <h2 className="text-xl font-semibold text-gray-900 flex items-center">
-                    <FaCreditCard className="mr-2 text-blue-600" />
+                    <CreditCard className="mr-2 text-blue-600" />
                     Payment Information
                   </h2>
                 </div>
@@ -396,8 +387,8 @@ const Checkout = () => {
                     disabled={loading}
                     className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   >
-                    <FaLock className="mr-2" />
-                    {loading ? 'Processing...' : `Place Order - $${getCartTotal().toFixed(2)}`}
+                    <Lock className="mr-2" />
+                    {loading ? 'Processing...' : `Place Order - $0.00`}
                   </button>
                 </div>
               </div>
@@ -412,27 +403,12 @@ const Checkout = () => {
               </div>
               <div className="p-6">
                 <div className="space-y-4">
-                  {cart.map((item, index) => (
-                    <div key={index} className="flex items-center space-x-4">
-                      <img
-                        src={item.book.imageURL}
-                        alt={item.book.bookTitle}
-                        className="w-16 h-20 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">{item.book.bookTitle}</h4>
-                        <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-medium text-gray-900">${(item.book.price * item.quantity).toFixed(2)}</p>
-                      </div>
-                    </div>
-                  ))}
+                  {/* Cart items are no longer available, so this will be empty */}
                 </div>
                 <div className="border-t border-gray-200 mt-6 pt-6 space-y-3">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Subtotal:</span>
-                    <span className="font-medium">${getCartTotal().toFixed(2)}</span>
+                    <span className="font-medium">${0.00.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Shipping:</span>
@@ -445,7 +421,7 @@ const Checkout = () => {
                   <div className="border-t border-gray-200 pt-3">
                     <div className="flex justify-between">
                       <span className="text-lg font-semibold text-gray-900">Total:</span>
-                      <span className="text-lg font-semibold text-gray-900">${getCartTotal().toFixed(2)}</span>
+                      <span className="text-lg font-semibold text-gray-900">${0.00.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>

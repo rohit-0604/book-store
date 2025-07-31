@@ -1,77 +1,21 @@
-import React, { useRef, useState } from 'react';
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { ShoppingCart } from 'lucide-react';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-
-//import './styles.css';
-
-import { FaCartShopping } from 'react-icons/fa6';
-
-// import required modules
-import { Pagination } from 'swiper/modules';
-const BookCards = ({headLine,books}) => {
-
-
-  return (
-    <div className='my-16 px-4 lg:px-24'>
-      <h2 className='text-5xl text-center font-bold text-black my-5'>{headLine}</h2>
-
-      {/*  cards */}
-      <div className='mt-12'>
-      <Swiper
-        slidesPerView={1}
-        spaceBetween={10}
-        pagination={{
-          clickable: true,
-        }}
-        breakpoints={{
-          640: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 4,
-            spaceBetween: 40,
-          },
-          1024: {
-            slidesPerView: 5,
-            spaceBetween: 50,
-          },
-        }}
-        modules={[Pagination]}
-        className="mySwiper w-full h-full"
+const BookCards = ({ book, onAddToCart }) => (
+  <div className="bg-white rounded-lg shadow-lg p-4 flex flex-col">
+    <img src={book.imageURL} alt={book.bookTitle} className="h-48 w-full object-cover rounded mb-4" />
+    <h3 className="text-lg font-bold mb-2">{book.bookTitle}</h3>
+    <p className="text-gray-600 mb-4 line-clamp-2">{book.description}</p>
+    <div className="flex items-center justify-between mt-auto">
+      <span className="text-xl font-bold text-blue-600">${book.price}</span>
+      <button
+        onClick={() => onAddToCart(book)}
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors"
       >
-        {
-            books.map(book => <SwiperSlide key={book._id}>
-                <Link to={`/book/${book._id}`}>
-                    <div className='relative'>
-                        <img src={book.imageURL} alt="" />
-                        <div className='absolute top-3 right-3 bg-blue-600 hover:bg-black p-2 rounded'>
-                            <FaCartShopping className='w-4 h-4 text-white'/>
-                        </div>
-                    </div>
-                    
-                    <div>
-                       <div>
-                       <h3>{book.bookTitle}</h3>
-                       <p>{book.authorName}</p>
-                       </div>
-                       <div>
-                        <p>$10.00</p>
-                       </div>
-                    </div>
-                </Link>
-            </SwiperSlide> )
-        }
-      </Swiper>
-
-      </div>
+        <ShoppingCart className="h-4 w-4" /> Add to Cart
+      </button>
     </div>
-  )
-}
+  </div>
+);
 
-export default BookCards
+export default BookCards;
