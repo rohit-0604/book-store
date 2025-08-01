@@ -1,4 +1,3 @@
-
 {
   "name": "bookstore-monorepo",
   "version": "1.0.0",
@@ -11,7 +10,8 @@
     "build": "cd Client && npm install && npm run build",
     "dev": "cd Client && npm run dev",
     "install:all": "npm install && cd Client && npm install && cd api && npm install",
-    "start": "cd api && npm start"
+    "start": "cd api && npm start",
+    "install-client": "cd Client && npm install"
   },
   "engines": {
     "node": ">=16.0.0"
