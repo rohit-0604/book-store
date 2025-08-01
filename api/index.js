@@ -1,10 +1,9 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-require('dotenv').config();
 
-const app = express();
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -12,114 +11,137 @@ const bookRoutes = require('./routes/books');
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
 
-// CORS configuration for Vercel
-const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:5173',
-    'https://your-app.vercel.app',
-    /\.vercel\.app$/
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
-};
+const app = express();
 
-app.use(cors(corsOptions));
+// Middleware
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
-  });
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
 });
 
-// API Documentation
-app.get('/api', (req, res) => {
-  res.json({
-    message: 'Enhanced Bookstore API v2.0',
-    endpoints: {
-      auth: '/api/auth',
-      books: '/api/books',
-      cart: '/api/cart',
-      orders: '/api/orders'
-    },
-    documentation: 'https://github.com/rohit-0604/book-store#api-documentation'
+// MongoDB Connection
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://AdminBook:TojikV87BfiG7L99@cluster0.9jkjolb.mongodb.net/enhanced-bookstore?retryWrites=true&w=majority&appName=Cluster0";
+
+// Connect to MongoDB only if not already connected
+if (mongoose.connection.readyState === 0) {
+  mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
+  })
+  .catch(err => {
+    console.error('❌ Failed to connect to MongoDB:', err.message);
   });
-});
+}
 
-// MongoDB connection with retry logic
-let isConnected = false;
-
-const connectDB = async () => {
-  if (isConnected) {
-    return;
-  }
-
-  try {
-    const mongoURI = process.env.MONGO_URI;
-    if (!mongoURI) {
-      throw new Error('MONGO_URI environment variable is not defined');
-    }
-
-    const conn = await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-    });
-
-    isConnected = conn.connections[0].readyState === 1;
-    console.log(`📊 MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
-    throw error;
-  }
-};
-
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
-// 404 handler
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Enhanced Bookstore API is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'production',
+    version: '2.0.0'
+  });
+});
+
+// API Info endpoint
+app.get('/api', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Enhanced Bookstore API v2.0',
+    features: [
+      'JWT Authentication',
+      'Role-based Access Control (Admin, Seller, Customer)',
+      'Shopping Cart System',
+      'Order Management',
+      'Book Inventory Tracking',
+      'Review System',
+      'Advanced Search & Filtering'
+    ],
+    endpoints: {
+      auth: '/api/auth',
+      books: '/api/books',
+      cart: '/api/cart',
+      orders: '/api/orders'
+    }
+  });
+});
+
+// 404 handler for undefined routes
 app.use('*', (req, res) => {
-  res.status(404).json({ 
-    message: 'Endpoint not found', 
-    path: req.originalUrl 
+  res.status(404).json({
+    success: false,
+    message: 'Endpoint not found',
+    path: req.originalUrl,
+    method: req.method,
+    suggestion: 'Check the API documentation at /api'
   });
 });
 
-// Error handling middleware
+// Global error handler
 app.use((error, req, res, next) => {
-  console.error('❌ Server Error:', error);
-  res.status(500).json({ 
-    message: 'Internal server error',
-    error: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
+  console.error('❌ Global Error Handler:', error);
+  
+  // Mongoose validation error
+  if (error.name === 'ValidationError') {
+    const errors = Object.values(error.errors).map(err => err.message);
+    return res.status(400).json({
+      success: false,
+      message: 'Validation Error',
+      errors: errors
+    });
+  }
+  
+  // Mongoose duplicate key error
+  if (error.code === 11000) {
+    const field = Object.keys(error.keyValue)[0];
+    return res.status(400).json({
+      success: false,
+      message: `${field} already exists`,
+      error: `Duplicate ${field}`
+    });
+  }
+  
+  // JWT errors
+  if (error.name === 'JsonWebTokenError') {
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid token'
+    });
+  }
+  
+  if (error.name === 'TokenExpiredError') {
+    return res.status(401).json({
+      success: false,
+      message: 'Token expired'
+    });
+  }
+  
+  // Default error response
+  res.status(error.status || 500).json({
+    success: false,
+    message: error.message || 'Internal Server Error',
+    ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
   });
 });
 
-// Serverless function handler
-module.exports = async (req, res) => {
-  await connectDB();
-  return app(req, res);
-};
-
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-  const port = process.env.PORT || 5001;
-  connectDB().then(() => {
-    app.listen(port, () => {
-      console.log('🚀 Enhanced Bookstore API Started');
-      console.log(`📡 Server running on port ${port}`);
-      console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-    });
-  });
-}
+// Export for Vercel
+module.exports = app;

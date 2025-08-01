@@ -1,11 +1,9 @@
+
 {
   "name": "bookstore-monorepo",
   "version": "1.0.0",
-  "private": true,
-  "workspaces": [
-    "Client",
-    "api"
-  ],
+  "description": "Enhanced bookstore application with React frontend and Node.js backend",
+  "main": "index.js",
   "scripts": {
     "build": "cd Client && npm install && npm run build",
     "dev": "cd Client && npm run dev",
@@ -15,5 +13,10 @@
   },
   "engines": {
     "node": ">=16.0.0"
-  }
+  },
+  "keywords": ["bookstore", "react", "nodejs", "mongodb"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
 }
