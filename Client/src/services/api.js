@@ -1,36 +1,30 @@
 import axios from 'axios';
-import toast from 'react-hot-toast';
 
-// Create axios instance with base configuration
+// Get the base URL for API calls
+const getBaseURL = () => {
+  // In production (Vercel), use relative path to serverless functions
+  if (import.meta.env.PROD) {
+    return '/api';
+  }
+
+  // In development, use environment variable or fallback
+  return import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+};
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api',
-  timeout: 10000,
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
+  timeout: 30000, // 30 seconds timeout
 });
 
-// Token management
-export const tokenManager = {
-  getToken: () => localStorage.getItem('bookstore_token'),
-  setToken: (token) => localStorage.setItem('bookstore_token', token),
-  removeToken: () => localStorage.removeItem('bookstore_token'),
-  isValidToken: (token) => {
-    if (!token) return false;
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.exp * 1000 > Date.now();
-    } catch {
-      return false;
-    }
-  }
-};
-
-// Request interceptor to add auth token
+// Request interceptor
 api.interceptors.request.use(
   (config) => {
-    const token = tokenManager.getToken();
-    if (token && tokenManager.isValidToken(token)) {
+    const token = localStorage.getItem('token');
+    if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -40,27 +34,15 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle auth errors
+// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      tokenManager.removeToken();
-      if (window.location.pathname !== '/login') {
-        toast.error('Session expired. Please login again.');
-        window.location.href = '/login';
-      }
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
     }
-    
-    // Handle other common errors
-    if (error.response?.status >= 500) {
-      toast.error('Server error. Please try again later.');
-    } else if (error.response?.data?.message) {
-      toast.error(error.response.data.message);
-    } else if (error.message) {
-      toast.error(error.message);
-    }
-    
     return Promise.reject(error);
   }
 );
