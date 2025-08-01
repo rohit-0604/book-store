@@ -7,8 +7,8 @@ const getBaseURL = () => {
     return '/api';
   }
 
-  // In development, use environment variable or fallback
-  return import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+  // In development, use environment variable or fallback to Server directory
+  return import.meta.env.VITE_API_URL || 'http://0.0.0.0:5001/api';
 };
 
 const api = axios.create({

@@ -19,6 +19,15 @@ mode = "sequential"
 task = "shell.exec"
 args = "cd Client && npm install && npm run dev"
 
+[[workflows.workflow]]
+name = "Backend Server"
+author = 45829728
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Server && npm install && npm start"
+
 [[ports]]
 localPort = 5173
 externalPort = 80

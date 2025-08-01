@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -29,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 // MongoDB Connection
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://AdminBook:TojikV87BfiG7L99@cluster0.9jkjolb.mongodb.net/enhanced-bookstore?retryWrites=true&w=majority&appName=Cluster0";
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://AdminBook:TojikV87BfiG7L99@cluster0.9jkjolb.net/enhanced-bookstore?retryWrites=true&w=majority&appName=Cluster0";
 
 // Connect to MongoDB only if not already connected
 if (mongoose.connection.readyState === 0) {
@@ -99,7 +98,7 @@ app.use('*', (req, res) => {
 // Global error handler
 app.use((error, req, res, next) => {
   console.error('❌ Global Error Handler:', error);
-  
+
   // Mongoose validation error
   if (error.name === 'ValidationError') {
     const errors = Object.values(error.errors).map(err => err.message);
@@ -109,7 +108,7 @@ app.use((error, req, res, next) => {
       errors: errors
     });
   }
-  
+
   // Mongoose duplicate key error
   if (error.code === 11000) {
     const field = Object.keys(error.keyValue)[0];
@@ -119,7 +118,7 @@ app.use((error, req, res, next) => {
       error: `Duplicate ${field}`
     });
   }
-  
+
   // JWT errors
   if (error.name === 'JsonWebTokenError') {
     return res.status(401).json({
@@ -127,14 +126,14 @@ app.use((error, req, res, next) => {
       message: 'Invalid token'
     });
   }
-  
+
   if (error.name === 'TokenExpiredError') {
     return res.status(401).json({
       success: false,
       message: 'Token expired'
     });
   }
-  
+
   // Default error response
   res.status(error.status || 500).json({
     success: false,
@@ -142,6 +141,12 @@ app.use((error, req, res, next) => {
     ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
   });
 });
+
+// Handle Vercel serverless function requirements
+if (process.env.VERCEL) {
+  // Vercel-specific configuration
+  app.use('/api', app);
+}
 
 // Export for Vercel
 module.exports = app;

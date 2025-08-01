@@ -29,11 +29,22 @@ const BookCards = ({ book, books, onAddToCart, headLine }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 flex flex-col">
       <img 
-        src={bookData.imageURL ? (bookData.imageURL.startsWith('http') ? bookData.imageURL : `/${bookData.imageURL}`) : '/placeholder-book.jpg'}
+        src={bookData.imageURL && bookData.imageURL.startsWith('http') 
+          ? bookData.imageURL 
+          : bookData.imageURL 
+            ? `/${bookData.imageURL}` 
+            : '/book1.png'
+        }
         alt={bookData.bookTitle || 'Book'} 
         className="h-48 w-full object-cover rounded mb-4" 
         onError={(e) => {
-          e.target.src = '/placeholder-book.jpg';
+          // Fallback to available public images
+          const fallbacks = ['/book1.png', '/book2.png', '/book3.png', '/book4.png', '/book5.png'];
+          const currentSrc = e.target.src;
+          const currentIndex = fallbacks.findIndex(img => currentSrc.includes(img));
+          if (currentIndex < fallbacks.length - 1) {
+            e.target.src = fallbacks[currentIndex + 1];
+          }
         }}
       />
       <h3 className="text-lg font-bold mb-2">{bookData.bookTitle || 'Untitled Book'}</h3>

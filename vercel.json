@@ -1,9 +1,12 @@
 
 {
-  "version": 2,
   "builds": [
     {
-      "src": "Client/package.json",
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "Client/dist"
@@ -13,7 +16,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "/api/index.js"
     },
     {
       "src": "/(.*)",
@@ -21,20 +24,8 @@
     }
   ],
   "functions": {
-    "api/auth.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/books.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/cart.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/orders.js": {
-      "runtime": "nodejs18.x"
+    "api/index.js": {
+      "maxDuration": 30
     }
-  },
-  "env": {
-    "NODE_ENV": "production"
   }
 }

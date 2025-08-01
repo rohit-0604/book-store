@@ -11,7 +11,8 @@ const Shop = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://online-book-store-orcin.vercel.app/api';
+        // Use relative path for Vercel deployment or environment variable for development
+        const apiUrl = import.meta.env.PROD ? '/api' : (import.meta.env.VITE_API_URL || 'http://localhost:5001/api');
         const response = await fetch(`${apiUrl}/books`);
         
         if (!response.ok) {
@@ -19,7 +20,14 @@ const Shop = () => {
         }
         
         const data = await response.json();
-        setBooks(data);
+        // Handle the API response structure correctly
+        if (data.success && data.data && data.data.books) {
+          setBooks(data.data.books);
+        } else if (Array.isArray(data)) {
+          setBooks(data);
+        } else {
+          setBooks([]);
+        }
       } catch (error) {
         console.error('Error fetching books:', error);
         setError(error.message);

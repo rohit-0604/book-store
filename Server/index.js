@@ -120,7 +120,7 @@ app.use('*', (req, res) => {
 // Global error handler
 app.use((error, req, res, next) => {
   console.error('❌ Global Error Handler:', error);
-  
+
   // Mongoose validation error
   if (error.name === 'ValidationError') {
     const errors = Object.values(error.errors).map(err => err.message);
@@ -130,7 +130,7 @@ app.use((error, req, res, next) => {
       errors: errors
     });
   }
-  
+
   // Mongoose duplicate key error
   if (error.code === 11000) {
     const field = Object.keys(error.keyValue)[0];
@@ -140,7 +140,7 @@ app.use((error, req, res, next) => {
       error: `Duplicate ${field}`
     });
   }
-  
+
   // JWT errors
   if (error.name === 'JsonWebTokenError') {
     return res.status(401).json({
@@ -148,14 +148,14 @@ app.use((error, req, res, next) => {
       message: 'Invalid token'
     });
   }
-  
+
   if (error.name === 'TokenExpiredError') {
     return res.status(401).json({
       success: false,
       message: 'Token expired'
     });
   }
-  
+
   // MongoDB connection errors
   if (error.name === 'MongooseServerSelectionError') {
     return res.status(503).json({
@@ -163,7 +163,7 @@ app.use((error, req, res, next) => {
       message: 'Database connection error'
     });
   }
-  
+
   // Default error response
   res.status(error.status || 500).json({
     success: false,
@@ -186,11 +186,7 @@ process.on('SIGINT', async () => {
 });
 
 // Start server
-app.listen(port, () => {
-  console.log('🚀 Enhanced Bookstore Server Started');
-  console.log(`📡 Server running on port ${port}`);
-  console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`📚 API Documentation: http://localhost:${port}/api`);
-  console.log(`❤️  Health Check: http://localhost:${port}/health`);
-  console.log('='.repeat(50));
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
