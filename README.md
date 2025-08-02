@@ -1,4 +1,4 @@
-# 📚 Enhanced Bookstore - Modern MERN Stack E-commerce Platform
+# 📚 Online Bookstore - MERN Stack E-commerce Platform
 
 A modern, full-featured online bookstore built with the MERN stack, featuring JWT authentication, role-based access control, shopping cart functionality, and comprehensive order management. Built with modern UI components and clean architecture.
 
